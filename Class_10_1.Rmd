@@ -1,7 +1,7 @@
 ---
 title: "Italian Polls"
 author: "Oliver Cordeiro"
-date:"10/1/2018"
+date: "10/1/2018"
 output: html_document
 ---
 
@@ -17,10 +17,10 @@ library(devtools)
 
 
 ```{r}
+italian_polls <- read.csv("https://pollofpolls.eu/get/polls/IT-parliament/format/csv")
 italian_polls %>% 
-  filter(date >= "2016-11-01") %>% 
-  select(date, firm, n, LN, PD, FIPDLFI, M5S, FdI, IdV) %>% 
-  gather(key="party", value = "poll", LN, PD, FIPDLFI, M5S, FdI, IdV) %>% 
+  select(date, firm, n, LN, PD, FIPDLFI, M5S) %>% 
+  gather(key="party", value = "poll", LN, PD, FIPDLFI, M5S) %>% 
   ggplot(aes(x=date, y=poll, color=party)) +
   geom_line()
 
