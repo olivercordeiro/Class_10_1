@@ -1,28 +1,40 @@
 ---
 title: "Italian Polls"
+author: "Oliver Cordeiro"
+date:"10/1/2018"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(gov.1005.data)
+library(tidyr)
+library(devtools)
 ```
 
-## R Markdown
+```{r}
+italian_polls <- read_csv("https://pollofpolls.eu/get/polls/IT-parliament/format/csv")
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+italian_polls %>% 
+  filter(date >= "2016-11-01") %>% 
+  ggplot() +
+  geom_line(aes(x=date, y=LN), color = "forest green") +
+  geom_line(aes(x=date, y=PD), color = "dark red") +
+  geom_line(aes(x=date, y=FIPDLFI), color = "blue")+
+  geom_line(aes(x=date, y=M5S), color = "yellow") +
+  geom_line(aes(x=date, y=FdI), color ="dark blue") +
+  geom_line(aes(x=date, y=IdV), color = "dark orange") 
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+italian_polls %>% 
+  filter(date >= "2016-11-01") %>% 
+  gather(key = "date", value = c(LN, PD, FIPDLFI, M5S, FdI, IdV))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
