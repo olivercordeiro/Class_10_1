@@ -14,27 +14,17 @@ library(tidyr)
 library(devtools)
 ```
 
-```{r}
-italian_polls <- read_csv("https://pollofpolls.eu/get/polls/IT-parliament/format/csv")
-
-italian_polls %>% 
-  filter(date >= "2016-11-01") %>% 
-  ggplot() +
-  geom_line(aes(x=date, y=LN), color = "forest green") +
-  geom_line(aes(x=date, y=PD), color = "dark red") +
-  geom_line(aes(x=date, y=FIPDLFI), color = "blue")+
-  geom_line(aes(x=date, y=M5S), color = "yellow") +
-  geom_line(aes(x=date, y=FdI), color ="dark blue") +
-  geom_line(aes(x=date, y=IdV), color = "dark orange") 
-
-
-```
 
 
 ```{r}
 italian_polls %>% 
   filter(date >= "2016-11-01") %>% 
-  gather(key = "date", value = c(LN, PD, FIPDLFI, M5S, FdI, IdV))
+  select(date, firm, n, LN, PD, FIPDLFI, M5S, FdI, IdV) %>% 
+  gather(key="party", value = "poll", LN, PD, FIPDLFI, M5S, FdI, IdV) %>% 
+  ggplot(aes(x=date, y=poll, color=party)) +
+  geom_line()
+
+
 ```
 
 
